@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<title>Problems</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<link href="css/bootstrap-social.css" rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-social.css}"/>
+
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<link rel="stylesheet" type="text/css" href="css/profile.css"
+	th:href="@{/css/profile.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+<script src="js/sorttable.js" type="text/javascript"></script>
+</head>
+<body>
+	<div th:replace="/fragments/nav :: navbar"></div>
+	<div id="content">
+		<div class="panel panel-info"
+			style="float: left; width: 50%; margin: 2.5%; overflow:auto;">
+			<div class="panel-heading" style="overflow:auto;">
+				<h2>Scores</h2>
+			</div>
+			<div class="panel-body" style="overflow:auto; padding:0;">
+			<table class="sortable table table-striped">
+				<thead align="center">
+					<tr>
+						<th>User</th>
+						<th>Score</th>
+						<th>Runtime(s)</th>
+						<th>Memory(B)</th>
+						<th style="font-size: 40px"></th>
+					</tr>
+
+				</thead>
+				<tbody>
+					<th:block class="panel panel-info" th:each="entry : ${entries}">
+						<tr>
+							<td><div class="panel-heading">
+									<a style="text-align: center" th:text="${entry.user.name}"
+										th:href="@{'/user/' + ${entry.user.id}}" id="temp">title</a>
+								</div></td>
+							<td><div class="panel-heading">
+									<p style="text-align: center" th:text="${entry.result != null} ? ${entry.result.score} : 'N/A'"
+										id="score">title</p>
+								</div></td>
+							<td><div class="panel-heading">
+									<p style="text-align: center" th:text="${entry.result != null} ? ${entry.result.executionTime} : 'N/A'"
+										id="executionTime">title</p>
+								</div></td>
+							<td><div class="panel-heading">
+									<p style="text-align: center" th:text="${entry.result != null} ? ${entry.result.memory} : 'N/A'"
+										id="resultmemory">title</p>
+								</div></td>
+							<td><div class="panel-heading">
+									<a style="text-align: center"
+										th:href="@{'results/' + ${entry.user.id} + '/solution'}"
+										id="seesolution">See Solution</a>
+								</div></td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			</div>
+		</div>
+		<div class="panel panel-info" style="float: right; width: 40%; margin: 2.5%; align: center;" th:if="${isChallenge.booleanValue()}" >
+			<!-- The switch statement determines which button text to show -->
+			<div class="panel-heading" style="overflow: auto;" th:switch="${challengePermission.booleanValue()}">
+				<h2 style="float:left">Sharable Link</h2>
+					<a th:case="true" style="float:right; margin: 4% 0 0 0;" class="btn btn-lg btn-primary " type="submit"
+					th:href="@{'/challenge/' + ${challenge.cId} + '/problem'}">Do Challenge!</a>
+					<a th:case="false" style="float:right; margin: 4% 0 0 0;" class="btn btn-lg btn-primary " type="submit"
+					th:href="@{'/challenge/' + ${challenge.cId} + '/problem'}">Join Challenge!</a>
+			</div>
+			<div class="panel-body" style="overflow:auto;">
+				<h4 th:text= "${uri}">URI</h4>
+				<div style="float:right">
+				<a href="https://twitter.com/share" class="btn btn-social-icon btn-twitter btn-info" th:data-url="${uri}" data-text="Text."><span class="fa fa-twitter"></span></a>
+				<script>!function(d,s,id) {
+					var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);
+					js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);
+					}}(document, 'script', 'twitter-wjs');
+				</script>
+				</div>
+				
+				<a style="float:right; margin-right:3%;" class = "btn btn-social-icon btn-facebook" onclick = "share_prompt();"><span class="fa fa-facebook"></span></a>
+				<script src="http://connect.facebook.net/en_US/all.js" type="text/javascript" charset="utf-8"></script>
+				<div id="fb-root"></div> 
+				<script th:inline="javascript" type="text/javascript" charset="utf-8">
+				FB.init({
+				    appId: '1762599333973535', 
+				    status: true, 
+				    cookie: true,
+				    xfbml: true
+				});
+
+				function share_prompt()
+				{
+
+
+				    FB.ui(
+				       {
+				        method: 'share',
+				      	href: [[${uri}]]
+				       }
+				     );
+				 }
+
+				</script>
+			</div>
+		</div>
+		<div style= "clear:both;"></div>
+ 		<div class="panel panel-info" style ="margin: 2.5%;float:both;overflow: auto;" >
+ 			<div th:unless="${isChallenge.booleanValue()}" class="panel-heading" style="overflow: auto;">
+ 				<h2 style="display: inline;">Discuss This Problem!</h2>
+ 				<!-- h5 style="display: inline;">  Discuss about this challenge</h5 -->	
+ 			</div>
+ 			<div th:if="${isChallenge.booleanValue()}" class="panel-heading" style="overflow: auto;">
+ 				<h2 style="display: inline;">Discuss This Challenge!</h2>
+ 				<!-- h5 style="display: inline;">  Discuss about this challenge</h5 -->	
+ 			</div>
+ 			
+ 			<div class="panel-body">
+ 			<div style="overflow: auto; height: 300px;">
+ 			<table class="table">
+ 				<tbody>
+ 					<div th:each="comment : ${comments}">
+ 						<tr>
+ 							<td th:text="${comment}">comment</td>
+ 							
+ 						</tr>
+ 					</div>
+ 				</tbody>
+ 			</table>
+ 			</div>
+ 				<div th:unless="${isChallenge.booleanValue()}" style ="top:90%;position: relative;'">
+ 					<form action="#" th:action="@{'/problems/' + ${problem.Id} + '/results'}" method="post">
+ 						<div class="input-group" style =" display: inherit;">
+ 							<div class="input-group">
+ 							    <input type="text" class="form-control"  id = "content" name="content" placeholder="Let's Talk!"/>
+ 							    <span class="input-group-btn">
+ 							    	<button class="btn btn-primary" name = "saveComment" type="submit">Send</button>
+ 							    </span>
+ 					   		</div>
+ 						</div>
+ 					</form>
+ 				</div>
+ 				<div th:if="${isChallenge.booleanValue()}" style ="top:90%;position: relative;'">
+ 					<form action="#" th:action="@{'/challenge/' + ${challenge.cId} + '/results'}" method="post">
+ 						<div class="input-group" style =" display: inherit;">
+ 							<div class="input-group">
+ 							    <input type="text" class="form-control"  id = "content" name="content" placeholder="Let's Talk!"/>
+ 							    <span class="input-group-btn">
+ 							    	<button class="btn btn-primary" name = "saveComment" type="submit">Send</button>
+ 							    </span>
+ 					   		</div>
+ 						</div>
+ 					</form>
+ 				</div>
+ 			</div>
+ 		</div>
+ 		<div th:if="${isChallenge.booleanValue()}">
+	 		<div th:if = "${user.id} != ${foruId.getCrtId()}">
+		 		<form action="#" th:action="@{'/challenge/' + ${challenge.cId} + '/leave'}" method="get">
+					<button style="position: relative;float: right;margin-right: 2.5%;" type="submit"
+						name="leaveChallenge" class="btn btn-danger">
+						<i class="fa fa-sign-out"></i> Leave Challenge
+					</button>
+				</form>
+			</div>
+		</div>
+		<div th:if="${isChallenge.booleanValue()}">
+			<div th:if = "${user.id} == ${foruId.getCrtId()}">
+				<form action="#" th:action="@{'/challenge/' + ${challenge.cId} + '/delete'}" method="get" >
+					<button style="position: relative;float: right;margin-right: 2.5%;" type="submit"
+						name="delChallenge" class="btn btn-danger">
+						<i class="fa fa-trash-o fa-lg"></i> Delete Challenge
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

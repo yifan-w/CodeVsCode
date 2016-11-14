@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+<title>About Us</title>
+</head>
+
+<body>
+<div th:if = "${#bools.isFalse(signed)}">
+	<div th:replace="/fragments/nav_SignIn :: navbar"></div>
+</div>
+<div th:if = "${#bools.isTrue(signed)}">
+	<div class="placeholder" th:replace="/fragments/nav :: navbar"></div>
+</div>
+<div id="content">
+	<h1
+		style="font-size: 40px; text-align: center; font-family: Charcoal; color: gray">About
+		Us</h1>
+	<p align="justify"
+		style="font-size: 20px; font-family: Arial; color: #5bc0de">Code
+		vs Code started out as a vision to help programmers around the world
+		improve their coding ability, and rapidly turned into a platform where
+		people could challenge their friends to a variety of problems
+		regarding a variety of topics. Our website aims to rapidly improve
+		programmers' skills by fostering a competitive yet collaborative
+		platform. Email us if you have any questions regarding functionality.
+	</p>
+</div>
+</body>
+</html>

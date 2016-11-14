@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<http>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<title>Problems</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<link rel="stylesheet" type="text/css" href="css/profile.css"
+	th:href="@{/css/profile.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+</head>
+<body>
+	<div th:replace="/fragments/nav :: navbar"></div>
+	<div class="container">
+		<h1 th:text="'Error '+${status}">Error 123</h1>
+		<h4 th:text="${error}">error</h4>
+		<h1 style="width: 70%;">We’re sorry — something has gone wrong.</h1>
+
+		<br />
+		<h2>What could have caused this?</h2>
+		<ul style="list-style: none;">
+			<li style="margin-bottom: 0.85714em;">Well, something technical
+				went wrong on our site.</li>
+			<li style="margin-bottom: 0.85714em;">We might have removed the
+				page when we redesigned our website.</li>
+			<li style="margin-bottom: 0.85714em;">Or you might have
+				accidentally typed the wrong URL in the address bar.</li>
+			<li style="margin-bottom: 0.85714em;">Or the link you clicked
+				might be old and does not work anymore.</li>
+		</ul>
+		<h2>What you can do?</h2>
+		<ul style="list-style: none;">
+			<li style="margin-bottom: 0.85714em;">You might try retyping the
+				URL and trying again.</li>
+			<li style="margin-bottom: 0.85714em;">Or we could take you back
+				to the <a href="/">Code VS Code home page</a>.
+			</li>
+			<li style="margin-bottom: 0.85714em;">Or you could send an
+				<a><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail</a> for feedback</li>
+		</ul>
+	</div>
+	<div style="position: relative; float: right; right: 10%;">
+		<video class="img-rounded" width="320" height="240"
+			autoplay="autoplay" loop="loop" muted="muted">
+			<source src="/resources/videoplayback.mp4" type="video/mp4" />
+			<source src="videoplayback.ogg" type="video/ogg" />
+		</video>
+	</div>
+</body>
+</html>
+</http>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/main.css"
+	th:href="@{/css/main.css}" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript" src="/js/editor.js"></script>
+
+
+
+</head>
+<body>
+
+<div th:replace = "/fragments/nav :: navbar"></div>
+
+<div id="editor" th:inline="text">[[*{solution.source}]]</div>
+
+	<script src="/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/cobalt");
+		editor.setReadOnly(true);
+		editor.setShowPrintMargin(false);
+	</script>
+
+</body>
+</html>

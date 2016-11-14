@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Problems</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<link rel="stylesheet" type="text/css" href="css/profile.css"
+	th:href="@{/css/profile.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+</head>
+<body>
+	<div th:replace="/fragments/nav :: navbar"></div>
+	<div id="content">
+		<div class="panel panel-info"
+			style="float: right; width: 45%; margin: 2.5%">
+			<div class="panel-heading" style="text-align: left; overflow: auto;">
+				<div th:if="${auser.id} == ${suser.id}">
+					<form method="POST" enctype="multipart/form-data" action="/upload">
+						<input type="file" id = "upload" name="file" style="display:none"/>
+						<div class = "hoverImage" style="height: 20px;">
+						<img class="img-rounded" onclick="document.getElementById('upload').click(); return false;" th:src="'/user/'+${auser.id}+'/image'" style="width:200px;float:left"/>
+						<div class ="viewablebutton">
+						<input class ="btn btn-primary btn-sm" type="submit" value="Upload" style="position: relative;right: 200px;" />
+						</div>
+						</div>
+					</form>
+				</div>	
+				<div th:if="${auser.id} != ${suser.id}">
+					<img class="img-rounded" th:src="'/user/'+${auser.id}+'/image'" style="width:200px;float:left"/>
+				</div>
+					<div style = "float: right;width: 50%;margin-top: 120px;">
+						<div   style="text-align: right; margin-bottom: 4%;">
+							<h2 style="display: inline;" th:if="${suser.id} == ${auser.id}">Hello</h2>
+							<h2 style="display: inline;" th:text="${auser.name} + '!'">user name</h2>
+						</div>
+						<form action="#" th:action="@{|/user/{userId}|}" method="get">
+							<div id="custom-search-input" th:if="${suser.id} == ${auser.id}"
+								style="position: relative;">
+								<div class="input-group col-md-12">
+									<input type="text" class="search-query form-control"
+										placeholder="Search" name="searchUser" /> <span
+										class="input-group-btn">
+										<button class="btn btn-info" type="submit" name="search">
+											<span class=" glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+							
+						</form>
+					
+					<div th:if="${suser.id} != ${auser.id}">
+						<div th:if="!${#lists.contains(sfriends,auser.id)}" align="right">
+							<form action="#" th:action="@{/user/{added}}" method="get">
+								<button style="position: relative;" type="submit"
+									name="addfriend" class="btn btn-success">
+									<i class="fa fa-plus"></i> Add Friend
+								</button>
+							</form>
+						</div>
+	
+						<div th:if="${#lists.contains(sfriends,auser.id)}"  align="right">
+							<form action="#" th:action="@{/user/{deleted}}" method="get" >
+								<button style="position: relative;" type="submit"
+									name="delfriend" class="btn btn-danger">
+									<i class="fa fa-trash-o fa-lg"></i> Remove Friend
+								</button>
+							</form>
+						</div>	
+					</div>
+				</div>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Friend</th>
+						<th>E-mail</th>
+						<th>Homepage</th>
+					</tr>
+				</thead>
+				<tbody>
+					<div th:each="friend : ${friends}">
+						<tr>
+							<td th:text="${friend.getName()}">friend name</td>
+							<td th:text="${friend.getEmail()}">email</td>
+							<td><a th:href="@{|/user/${friend.getId()}|}"><i
+									class="fa fa-home fa-fw"></i></a></td>
+						</tr>
+					</div>
+				</tbody>
+			</table>
+		</div>
+		<div class="panel panel-info"
+			style="float: left; width: 45%; margin: 2.5%">
+			<div class="panel-heading">
+				<h2>Challenges</h2>
+			</div>
+			<div th:each="challenge : ${challenges}">
+				<div class="panel-body">
+					<a style="text-align: left" th:text="${challenge.problemTitle}"
+						th:href="@{'/challenge/' + ${challenge.cId} + '/results'}" id="challengetitle">title</a>
+					<p th:text="'Participants: ' + ${challenge.usersString}">users
+						participating</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

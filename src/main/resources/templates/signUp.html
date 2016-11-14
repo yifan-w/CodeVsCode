@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>Sign Up!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="css/signup.css"
+	th:href="@{css/signup.css}" />
+	<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+</head>
+<body>
+	<form action="#" th:action="@{/signup}" th:object="${user}"
+		method="post">
+	<div class="login-block">
+    <h1>Sign Up</h1>
+    <input type="text" value="" placeholder="Email" id="username" th:field="*{email}" />
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</p>
+    <input type="text" value="" placeholder="Username" id="username" th:field="*{name}" />
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</p>
+    <input type="password" value="" placeholder="Password" id="password" th:field="*{passwordHash}"/>
+    <p th:if="${#fields.hasErrors('passwordHash')}" th:errors="*{passwordHash}"></p>
+   <!--  <input type="password" value="" placeholder="Retype Password" id="password" /> -->
+    
+    <button type="submit" class="btn btn-info" value="Submit">Submit</button>
+</div>
+</form>
+</body>
+
+</html>

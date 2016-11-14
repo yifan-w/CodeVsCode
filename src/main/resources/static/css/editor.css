@@ -1,0 +1,57 @@
+.text_edit {
+	width: 800px;
+	height: 600px;
+	resize: none;
+}
+
+#view_text {
+	width: 800px;
+}
+#content {
+   margin: auto auto auto auto;
+    width: 50%;
+}
+#editor { 
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#run {
+	background-color: green;
+	height: 50px;
+	line-height: 50px;
+	width: 150px;
+	text-align: center;
+	vertical-align: middle;
+	margin: auto;
+	position: absolute;
+	left: 600px; top: 800px; font: Arial; font-size: 30px; 
+}
+#save {
+	background-color: orange;
+	height: 50px;
+	line-height: 50px;
+	width: 150px;
+	text-align: center;
+	vertical-align: middle;
+	margin: auto;
+	position: absolute;
+	left: 10px; top: 800px;
+	font: Arial; font-size: 30px;
+}
+#executionstats {
+	background-color : gray;
+	align: left;
+	border-radius: 25 px;
+	/*padding: 20px; */
+	height : 800px;
+	width : 800px;
+}
+p {
+	font-size: 30px;
+	font: Arial;
+	
+}

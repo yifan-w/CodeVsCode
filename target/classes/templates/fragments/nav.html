@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<nav class="navbar navbar-default navbar-static-top"
+	th:fragment="navbar">
+	<div align="center">
+			<a class="btn btn-link navbar-btn" href="/">Home</a> <a
+				class="btn btn-link navbar-btn" href="/problems">Problems</a> <a
+				class="btn btn-link navbar-btn" href="/problems/create">Create
+				Problem</a> <a class="btn btn-link navbar-btn" href="/about.html">About</a>
+		<form style="display: inline" action="#" th:action="@{'/logout'}" method="post">
+			<button class="btn btn-link navbar-btn" type="submit">Sign
+				Out</button>
+		</form>
+	</div>
+</nav>
+</html>

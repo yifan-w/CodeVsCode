@@ -1,0 +1,6 @@
+.hoverImage .viewablebutton {
+    display: none;
+}
+.hoverImage:hover .viewablebutton {
+    display: inline;
+}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/main.css"
+	th:href="@{/css/main.css}" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title th:text="${problem.title}">Problem title</title>
+
+
+<script type="text/javascript" src="/js/editor.js"></script>
+
+
+
+</head>
+<!-- <body onload="show_and_start(100);"> -->
+<body th:attr="onload='show_and_start(' + ${solution.elapsedTime} + ')'">
+  	<div th:replace = "/fragments/nav :: navbar"></div>
+	<div id="content">
+		<div th:if="${challenge} != null and ${challengeDisplay} != null">
+			<div
+				th:text="'Doing ' + ${challengeDisplay.problemTitle} + ' as part of challenge ' + ${challenge.id} + '.'">
+				Doing challenge problem title as part of challenge 123.</div>
+			<div th:text="'Participants: ' + ${challengeDisplay.usersString}">
+				Participants</div>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading" th:text="${problem.title}">Problem
+				title</div>
+			<div class="panel-body" th:text="${problem.description}">Problem
+				description</div>
+		</div>
+
+		<h3>
+			<div class="label label-primary">
+				Time: <span id="time" style="color: black"></span>
+			</div>
+		</h3>
+
+
+		<form action="#"
+			th:action="${challenge} == null or ${challenge.id} == 0 ? @{'/problems/' + ${problem.id}} : @{'/challenge/' + ${challenge.id} + '/problem'}"
+			th:object="${solution}" method="post">
+			<input type="hidden" th:field="${solution.id}"></input> 
+			<select
+				id="languageSelect" name="language" th:field="*{language}"
+				onchange="changeLanguage();">
+
+				<option value="10">Java</option>
+				<option value="34">C</option>
+				<option value="1">C++</option>
+				<option value="27">C#</option>
+				<option value="4">Python</option>
+				<option value="29">PHP</option>
+				<option value="35">JavaScript</option>
+				<option value="17">Ruby</option>
+				<option value="3">Perl</option>
+				<option value="13">Assembler</option>
+				<option value="43">ObjC</option>
+				<option value="117">R</option>
+				<option value="121">Groovy</option>
+				<option value="40">SQL</option>
+				<option value="20">D</option>
+				<option value="26">Lua</option>
+
+
+			</select> <br /> <input type="hidden" th:field="*{source}" id="inputHidden" />
+			<input type="hidden" th:field="${solution.elapsedTime}"
+				id="hiddenTime" />
+			<div id="editor" th:inline="text">[[*{source}]]</div>
+
+			<script src="/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+			<script>
+				var editor = ace.edit("editor");
+				editor.setTheme("ace/theme/cobalt");
+				changeLanguage();
+				editor.setShowPrintMargin(false);
+				function loadSource() {
+					$("#inputHidden").val(editor.getValue());
+					$("#hiddenTime").val((x.time() / 1000) | 0);
+				}
+				function changeLanguage() {
+					var language = $("#languageSelect option:selected").text();
+					if (language === "C" || language === "C++") {
+						language = "c_cpp";
+					}
+					else if(language == "C#") {
+						language = "csharp";
+					} 
+					else if(language =="ObjC") {
+						language = "objectivec";
+					}
+					else if(language == "Assembler"){
+						language = "assembly_x86";
+					}
+					var path1 = "ace/mode/";
+					var pathComplete = path1.concat(language);
+					pathComplete = pathComplete.toLowerCase();
+					editor.getSession().setMode(pathComplete);
+					console.log(pathComplete);
+				}
+				function setUnclick() {
+					$("#run").addClass("disabled");
+				}
+				function setClick() {
+					$("#run").addClass("enabled");
+				}
+			</script>
+			
+			<br />
+			
+			<div style="float: left;">
+				<input class="btn btn-default btn-lg" type="submit" name="save"
+					ID="save" value="Save" onclick="loadSource();" />
+			</div>
+
+			<div style="float: right; margin-bottom: 50px">
+				<input class="btn btn-success btn-lg" type="submit" ID="run"
+					onclick="stop(); loadSource(); setUnclick()" value="Submit" />
+			</div>
+		</form>
+		<div th:if="${result} != null"
+			th:class="${result.status} == 'accepted' ? 'panel panel-success' : 'panel panel-danger'"
+			id="results" style="overflow: auto;">
+			<div class="panel-heading">
+				<h3 th:text="Results">Problem title</h3>
+			</div>
+			<div class="panel-body">
+				<p th:text="'Status: ' + ${result.status}">status</p>
+				<p th:text="'Elapsed Time: ' + ${result.elapsedTime} + 's'">elapsed
+					time</p>
+				<p th:if="${result.status.equals('accepted')}" th:text="'Execution Time: ' + ${result.executionTime} + 's'">execution
+					time</p>
+				<p th:if="${result.status.equals('accepted')}" th:text="'Memory Used: ' + ${result.memory} + ' bytes'">memory</p>
+				<p th:text="'Score: ' + ${result.score} + '%'">score</p>
+				<p
+					th:text="'First failed testcase number: ' + (${result.failedTestcase} ? ${result.failedTestcase.testcaseNumber} : 'all testcases passed')" />
+				<div th:if="${result.runtimeInfo.cmperr.isEmpty()} == false">
+					<p>Compilation Error:</p>
+					<blockquote><pre th:text="${result.runtimeInfo.cmperr}">cmperr</pre></blockquote>
+				</div>
+				<div th:if="${result.runtimeInfo.stdout.isEmpty()} == false">
+					<p>Standard Out:</p>
+					<blockquote><pre th:text="${result.runtimeInfo.stdout}">stdout</pre></blockquote>
+				</div>
+				<div th:if="${result.runtimeInfo.stderr.isEmpty()} == false">
+					<p>Standard Error:</p>
+					<blockquote><pre th:text="${result.runtimeInfo.stderr}">stderr</pre></blockquote>
+				</div>
+			</div>
+			<div th:if="${result.status} == 'accepted'">
+				<form action="#" th:action="@{/challenge/create}" method="post" th:object = "${challenge}" >
+					<input type="hidden" th:field="${problem.id}"></input>
+				    <select id = "cPermission" class="form-control form-control-lg"
+				    th:field="${challenge.permission}" style="float:left;width: 30%;margin-top:8%;margin-left: 6%;">
+				    	<option selected = "selected" value = "0">Choose Privacy</option>
+				      	<option value = "1">Public</option>
+				        <option value = "2">Private</option>
+				        <option value = "3">Unlisted</option>
+				   	</select> 
+					<div class="btn-group-vertical" style= "float:right;margin: 2% 6% 2% 2%;">
+						<input class="btn btn-default btn-lg btn-success" type="submit" 
+						value="Create Challenge"/>
+						<input style="align: right" class="btn btn-default btn-lg btn-success" type="submit" value="Share Results"/>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div th:if="${submitError} != null" class="alert alert-danger" id="results">
+
+
+			<p th:text="${submitError}">submit error</p>
+		</div>
+	</div>
+</body>
+</html>

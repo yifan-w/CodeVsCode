@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.codevscode.WebCodeProblemsApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.068 sec - in com.codevscode.WebCodeProblemsApplicationTests

@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<title>Problems</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
+
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<script src="js/sorttable.js" type="text/javascript"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+</head>
+<body>
+<div th:if = "${#bools.isFalse(signed)}">
+	<div th:replace="/fragments/nav_SignIn :: navbar"></div>
+</div>
+<div th:if = "${#bools.isTrue(signed)}">
+	<div class="placeholder" th:replace="/fragments/nav :: navbar"></div>
+</div>
+
+	<div id="content" class="panel-group" style="width: 70%;" >
+		<h1
+			style="font-size: 40px; text-align: center; font-family: Charcoal; color: gray">Problems</h1>
+			<table style="text-align: center;" class="sortable table table-striped">
+			<thead><tr>
+			<th style="text-align: center;" >Problem Name</th>
+			<th  style="text-align: center;" >Created By </th>
+			<th  style="text-align: center;"> Date </th>
+			<th  style="text-align: center;">Difficulty</th>
+			</tr>
+			
+			</thead>
+			<tbody>
+		<th:block class="panel panel-info" th:each="problem : ${problems}">
+			<tr>
+			<td><div class="panel-heading">
+				<a style="text-align: center;font-size: 15px;"
+					th:text="${problem.title}"
+					th:href="@{'/problems/' + ${problem.id}}" id="problemtitle">title</a>
+			</div></td>
+			<td><div class="panel-heading">
+				<a style="text-align: center;font-size: 15px;"
+					th:text="${problem.userName}"
+					th:href="@{'/user/' + ${problem.createdBy}}" id="problemtitle">title</a>
+			</div></td>
+			<td><div class="panel-heading">
+				<p style="text-align: center;font-size: 15px;"
+					th:text="${problem.createdDate}"
+					 id="problemtitle">title</p>
+			</div></td>
+			<td><div class="panel-heading">
+				<p hidden="hidden" style="visibility: hidden;width: 0px;height: 0px;margin: 0;"
+				th:text="${problem.difficulty}"
+				id="problemtitle">title</p>
+				<div th:if = "${problem.difficulty} == 0">
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				</div>
+				<div th:if = "${problem.difficulty} == 1">
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				</div>
+				<div th:if = "${problem.difficulty} == 2">
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				</div>
+				<div th:if = "${problem.difficulty} == 3">
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				</div>
+				<div th:if = "${problem.difficulty} == 4">
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star-o" aria-hidden="true"></i>
+				</div>
+				<div th:if = "${problem.difficulty} == 5">
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				<i class="fa fa-star" aria-hidden="true"></i>
+				</div>
+			</div></td>
+			<td><div class="panel-heading">
+				<a style="text-align: center;font-size: 15px;"
+					th:href="@{'/problems/' + ${problem.id} + '/results'}"
+					id="seeResults">See Results</a>
+			</div></td>
+			</tr>
+			<!-- <p th:text="'id: ' + ${problem.id}">id=</p> -->
+		</th:block>
+		</tbody>
+		</table>
+	</div>
+</body>
+</html>

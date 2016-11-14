@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.codevscode.DatabaseTests
+-------------------------------------------------------------------------------
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.631 sec - in com.codevscode.DatabaseTests

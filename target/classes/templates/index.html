@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- Latest compiled and minified CSS -->
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<link href="css/bootstrap-social.css" rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-social.css}"/>
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"
+	rel="stylesheet" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+
+<link rel="stylesheet" type="text/css" href="css/main.css"
+	th:href="@{/css/main.css}" />
+<title>Home Page</title>
+</head>
+<body>
+	<div th:replace="/fragments/nav_SignIn :: navbar"></div>
+	<div id="content">
+		<div th:if="${errorMessage} != null" class="alert alert-danger"
+			id="error-message">
+			<strong>Error! </strong>
+			<p th:text="${errorMessage}">error message</p>
+		</div>
+		<div th:if="${successMessage} != null" class="alert alert-success"
+			id="success-message">
+			<strong>Success! </strong>
+			<p th:text="${successMessage}">success message</p>
+		</div>
+		<h1 align="center">
+			<strong>Code vs Code</strong>
+		</h1>
+		<br />
+		<h2
+			style="color: gray; font-size: 40px; font-family: Charcoal; text-align: center">
+			Team 14</h2>
+
+			<div class="wrapper">
+				<div class="form-signin">
+				<form action="#" th:action="@{/login}" th:object="${user}"
+					method="post">
+					<h3 class="form-signin-heading text-center">Login or Sign Up</h3>
+					<input type="text" class="form-control" name="user"
+						th:field="*{name}" placeholder="Username" /> <input
+						type="password" class="form-control" name="password"
+						th:field="*{passwordHash}" placeholder="Password" />
+					<button class="btn btn-lg btn-primary btn-block" type="submit"
+						onclick="location.href='/profile'">Login</button>
+					<input type="button" class="btn btn-lg btn-info btn-block"
+						onclick="location.href='/signup'" value="Sign Up" />
+						</form>
+						<h3><span>or</span></h3>
+						<form action="/connect/facebook" method="POST">
+							<input type="hidden" name="scope" value="email" />
+							<a href="${pageContext.request.contextPath}/auth/facebook?scope=email"><button class="btn btn-lg btn-block btn-social btn-facebook"><span class="fa fa-facebook"></span> Sign in with Facebook
+         					</button></a>  
+          				</form>	
+          				<form action="/connect/twitter" method="POST">
+          					<a href="${pageContext.request.contextPath}/auth/twitter"><button class="btn btn-lg btn-block btn-social btn-info"><span class="fa fa-twitter"></span> Sign in with Twitter</button></a>
+          		 		</form>
+					</div>
+			</div>        
+		
+	</div>
+<a href="/facebook" style="visibility: hidden"></a>
+<a href="/twitter" style="visibility: hidden"></a>
+
+</body>
+</html>
